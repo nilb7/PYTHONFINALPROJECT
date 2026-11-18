@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <h1>Make Prishtina cleaner and safer</h1>
+        <p>See a pile of trash, a pothole or a broken streetlight? Put a pin on the map and report it so everyone can see it.</p>
+        <div class="hero-buttons">
+            {% if current_user %}
+                <a href="{{ url_for('new_report') }}" class="btn btn-green">Report a problem</a>
+            {% else %}
+                <a href="{{ url_for('register') }}" class="btn btn-green">Create an account</a>
+                <a href="{{ url_for('login') }}" class="btn btn-light">Login</a>
+            {% endif %}
+            <a href="{{ url_for('map_page') }}" class="btn btn-outline">Open the map</a>
+        </div>
+    </div>
+</section>
+
+<section class="container section">
+    <div class="stats">
+        <div class="stat"><strong>{{ stats.total }}</strong><span>Reports</span></div>
+        <div class="stat"><strong>{{ stats.open }}</strong><span>Open</span></div>
+        <div class="stat"><strong>{{ stats.resolved }}</strong><span>Resolved</span></div>
+        <div class="stat"><strong>{{ stats.users }}</strong><span>Citizens</span></div>
+    </div>
+</section>
+
+<section class="container section">
+    <h2>How it works</h2>
+    <div class="steps">
+        <div class="step"><span class="step-number">1</span><h3>Sign up</h3><p>Create a free account in a few seconds.</p></div>
+        <div class="step"><span class="step-number">2</span><h3>Place a pin</h3><p>Click on the map where the problem is.</p></div>
+        <div class="step"><span class="step-number">3</span><h3>Describe it</h3><p>Choose a category and write what is wrong.</p></div>
+        <div class="step"><span class="step-number">4</span><h3>Follow it</h3><p>Everyone can see it on the map until it is resolved.</p></div>
+    </div>
+</section>
+
+<section class="container section">
+    <h2>Latest reports</h2>
+    <div class="report-list">
+        {% for report in latest %}
+            {% include "_report_card.html" %}
+        {% else %}
+            <p class="muted">There are no reports yet.</p>
+        {% endfor %}
+    </div>
+    <p class="center"><a href="{{ url_for('reports_page') }}" class="btn btn-blue">See all reports</a></p>
+</section>
+{% endblock %}

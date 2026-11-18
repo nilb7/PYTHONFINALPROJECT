@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Map - Safe City Prishtina{% endblock %}
+
+{% block content %}
+<section class="container section">
+    <h1>Map of reports</h1>
+    <div class="filters">
+        <select id="filterCategory">
+            <option value="">All categories</option>
+            {% for key, label in categories.items() %}
+                <option value="{{ key }}">{{ label }}</option>
+            {% endfor %}
+        </select>
+        <select id="filterStatus">
+            <option value="">All statuses</option>
+            {% for key, label in statuses.items() %}
+                <option value="{{ key }}">{{ label }}</option>
+            {% endfor %}
+        </select>
+        {% if current_user %}
+            <a href="{{ url_for('new_report') }}" class="btn btn-green">Report a problem</a>
+        {% else %}
+            <a href="{{ url_for('login', next='/report/new') }}" class="btn btn-green">Login to report</a>
+        {% endif %}
+    </div>
+    <div id="map" class="map map-large"></div>
+    <div class="legend" id="legend"></div>
+</section>
+<script id="categoryData" type="application/json">{{ categories|tojson }}</script>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/map-common.js') }}"></script>
+<script src="{{ url_for('static', filename='js/map.js') }}"></script>
+{% endblock %}

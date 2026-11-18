@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Report a problem - Safe City Prishtina{% endblock %}
+
+{% block content %}
+<section class="container section">
+    <h1>Report a problem</h1>
+    <p class="muted">Step 1: click on the map to put a pin where the problem is. You can drag the pin to fix its position.</p>
+    <div class="report-layout">
+        <div>
+            <div id="map" class="map"></div>
+            <button type="button" class="btn btn-light btn-small" id="locateBtn">Use my location</button>
+            <p class="pin-info" id="pinInfo">No pin placed yet.</p>
+        </div>
+        <form id="reportForm" class="card form">
+            <h2>Step 2: describe it</h2>
+            <label for="title">Title</label>
+            <input type="text" id="title" maxlength="80" placeholder="Example: Trash next to the school" required>
+
+            <label for="category">Category</label>
+            <select id="category" required>
+                <option value="">Choose a category</option>
+                {% for key, label in categories.items() %}
+                    <option value="{{ key }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="description">Description</label>
+            <textarea id="description" rows="5" maxlength="600" placeholder="What is the problem and how bad is it?" required></textarea>
+
+            <div id="formError" class="flash flash-error hidden"></div>
+            <button type="submit" class="btn btn-green">Send report</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/map-common.js') }}"></script>
+<script src="{{ url_for('static', filename='js/report.js') }}"></script>
+{% endblock %}

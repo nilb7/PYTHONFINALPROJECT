@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Reports - Safe City Prishtina{% endblock %}
+
+{% block content %}
+<section class="container section">
+    <h1>Reports</h1>
+    <form method="get" class="filters">
+        <select name="category">
+            <option value="">All categories</option>
+            {% for key, label in categories.items() %}
+                <option value="{{ key }}" {% if key == selected_category %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+        <select name="status">
+            <option value="">All statuses</option>
+            {% for key, label in statuses.items() %}
+                <option value="{{ key }}" {% if key == selected_status %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-blue">Filter</button>
+    </form>
+
+    <div class="report-list">
+        {% for report in reports %}
+            {% include "_report_card.html" %}
+        {% else %}
+            <p class="muted">No reports found.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

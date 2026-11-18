@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Safe City Prishtina{% endblock %}</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="{{ url_for('index') }}" class="logo">Safe City <span>Prishtina</span></a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu">&#9776;</button>
+            <nav class="nav" id="mainNav">
+                <a href="{{ url_for('index') }}">Home</a>
+                <a href="{{ url_for('map_page') }}">Map</a>
+                <a href="{{ url_for('reports_page') }}">Reports</a>
+                <a href="{{ url_for('about') }}">About Us</a>
+                {% if current_user %}
+                    <a href="{{ url_for('new_report') }}" class="nav-button">Report a problem</a>
+                    <span class="nav-user">{{ current_user['username'] }}</span>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Login</a>
+                    <a href="{{ url_for('register') }}" class="nav-button">Register</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="container flash-area">
+                    {% for category, message in messages %}
+                        <div class="flash flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>Safe City Prishtina &middot; School project &middot; Map data &copy; OpenStreetMap contributors</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

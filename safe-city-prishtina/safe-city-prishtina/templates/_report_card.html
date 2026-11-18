@@ -1,0 +1,21 @@
+<article class="report-card" data-id="{{ report.id }}">
+    <div class="report-top">
+        <span class="badge badge-{{ report.category }}">{{ report.category_label }}</span>
+        <span class="badge status-{{ report.status }}">{{ statuses[report.status] }}</span>
+    </div>
+    <h3>{{ report.title }}</h3>
+    <p>{{ report.description }}</p>
+    <div class="report-meta">
+        <span>by {{ report.username }}</span>
+        <span>{{ report.created_at }}</span>
+    </div>
+    <div class="report-actions">
+        <a href="{{ url_for('map_page') }}?focus={{ report.id }}" class="btn btn-small btn-blue">View on map</a>
+        {% if report.can_edit %}
+            <button class="btn btn-small btn-green js-resolve" data-id="{{ report.id }}">
+                {% if report.status == 'resolved' %}Reopen{% else %}Mark resolved{% endif %}
+            </button>
+            <button class="btn btn-small btn-red js-delete" data-id="{{ report.id }}">Delete</button>
+        {% endif %}
+    </div>
+</article>
